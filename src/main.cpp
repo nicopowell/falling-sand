@@ -1,20 +1,14 @@
 #include "raylib.h"
-#include "simulation/Element.h"
 #include "core/Constants.h"
+#include "simulation/Element.h"
+#include "simulation/Simulation.h"
 
 int main() {
     // 1. Inicialización
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Raylib - Guía Rápida");
     SetTargetFPS(60); // Sincroniza el juego a 60 frames por segundo
 
-    int grid[GRID_HEIGHT][GRID_WIDTH];
-
-    // Lleno el grid de aire
-    for (int i = 0; i < GRID_HEIGHT; i++) {
-        for (int j = 0; j < GRID_WIDTH; j++) {
-            grid[i][j] = EMPTY;
-        }
-    }
+    Simulation simulation;
 
     Vector2 cursorPosition;
 
@@ -27,7 +21,7 @@ int main() {
         cursorPosition = GetMousePosition();
 
         if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
-            grid[(int)cursorPosition.y/CELL_SIZE][(int)cursorPosition.x/CELL_SIZE] = SAND;
+            simulation.SetCell(cursorPosition, SAND);
         }
 
         // --- Dibujado (Draw) ---
@@ -37,7 +31,7 @@ int main() {
             // Dibujo la grilla
             for (int i = 0; i < GRID_HEIGHT; i++) {
                 for (int j = 0; j < GRID_WIDTH; j++) {
-                    DrawRectangle(j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE, grid[i][j] == SAND ? YELLOW : BLACK);
+                    DrawRectangle(j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE, simulation.GetCell(i, j) ? YELLOW : BLACK);
                 }
             }
 

@@ -1,17 +1,22 @@
 #include "raylib.h"
+#include "simulation/Element.h"
+#include "core/Constants.h"
 
 int main() {
     // 1. Inicialización
-    const int screenWidth = 500;
-    const int screenHeight = 500;
-
-    InitWindow(screenWidth, screenHeight, "Raylib - Guía Rápida");
+    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Raylib - Guía Rápida");
     SetTargetFPS(60); // Sincroniza el juego a 60 frames por segundo
 
-    // Celda y grilla
-    const int CELL_SIZE = 5;
-    const int GRID_WIDTH = screenWidth / CELL_SIZE;
-    const int GRID_HEIGHT = screenHeight / CELL_SIZE;
+    int grid[GRID_HEIGHT][GRID_WIDTH];
+
+    // Lleno el grid de aire
+    for (int i = 0; i < GRID_HEIGHT; i++) {
+        for (int j = 0; j < GRID_WIDTH; j++) {
+            grid[i][j] = EMPTY;
+        }
+    }
+
+    Vector2 cursorPosition;
 
 
     // 2. Bucle Principal
@@ -19,6 +24,11 @@ int main() {
         
         // --- Lógica de Actualización (Update) ---
         // Aquí van cálculos, colisiones y entrada de usuario
+        cursorPosition = GetMousePosition();
+
+        if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
+            grid[(int)cursorPosition.y/CELL_SIZE][(int)cursorPosition.x/CELL_SIZE] = SAND;
+        }
 
         // --- Dibujado (Draw) ---
         BeginDrawing();
@@ -27,7 +37,7 @@ int main() {
             // Dibujo la grilla
             for (int i = 0; i < GRID_HEIGHT; i++) {
                 for (int j = 0; j < GRID_WIDTH; j++) {
-                    DrawRectangle(j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE, (i+j)%2 == 0 ? WHITE : GRAY);
+                    DrawRectangle(j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE, grid[i][j] == SAND ? YELLOW : BLACK);
                 }
             }
 

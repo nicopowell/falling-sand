@@ -24,6 +24,8 @@ int main() {
             simulation.SetCell(cursorPosition, SAND);
         }
 
+        simulation.Update();
+
         // --- Dibujado (Draw) ---
         BeginDrawing();
             ClearBackground(BLACK); // Limpia el frame anterior
@@ -31,7 +33,7 @@ int main() {
             // Dibujo la grilla
             for (int i = 0; i < GRID_HEIGHT; i++) {
                 for (int j = 0; j < GRID_WIDTH; j++) {
-                    DrawRectangle(j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE, simulation.GetCell(i, j) ? YELLOW : BLACK);
+                    DrawRectangle(j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE, simulation.GetCell(i, j) == SAND ? YELLOW : BLACK);
                 }
             }
 

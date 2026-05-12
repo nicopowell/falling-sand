@@ -11,4 +11,5 @@ public:
     Simulation();
     void SetCell(Vector2 position, Element element);
     Element GetCell(int x, int y);
+    void Update();
 };

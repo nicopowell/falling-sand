@@ -15,7 +15,7 @@ Simulation::Simulation()
     }
 }
 
-void Simulation::SetCell(Vector2 position, Element element)
+void Simulation::SetCell(Vector2 position, Element element, bool overwrite)
 {
     int x = (int)position.x / CELL_SIZE;
     int y = (int)position.y / CELL_SIZE;
@@ -23,6 +23,8 @@ void Simulation::SetCell(Vector2 position, Element element)
     if (x < 0 || x >= GRID_WIDTH || y < 0 || y >= GRID_HEIGHT)
         return;
 
+    if (!overwrite && grid[y][x] != EMPTY) return;
+    
     grid[y][x] = element;
 }
 

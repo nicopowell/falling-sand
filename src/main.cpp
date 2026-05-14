@@ -3,7 +3,7 @@
 #include "simulation/Element.h"
 #include "simulation/Simulation.h"
 
-void paintBrush(Simulation& simulation, Vector2 cursorPosition, int brushSize, Element element);
+void paintBrush(Simulation& simulation, Vector2 cursorPosition, int brushSize, Element element, bool overwrite = false);
 
 int main()
 {
@@ -41,7 +41,7 @@ int main()
 
         if (IsMouseButtonDown(MOUSE_BUTTON_RIGHT))
         {
-            paintBrush(simulation, cursorPosition, brushSize, EMPTY);
+            paintBrush(simulation, cursorPosition, brushSize, EMPTY, true);
         }
 
         if (IsKeyPressed(KEY_C)) simulation.Clear();
@@ -82,21 +82,21 @@ int main()
     return 0;
 }
 
-void paintBrush(Simulation& simulation, Vector2 cursorPosition, int brushSize, Element element) {
+void paintBrush(Simulation& simulation, Vector2 cursorPosition, int brushSize, Element element, bool overwrite) {
     int cx = cursorPosition.x / CELL_SIZE;
     int cy = cursorPosition.y / CELL_SIZE;
-    int r = brushSize;
+    int r = brushSize - 1;
     for (int dy = -r; dy <= r; dy++)
     {
         for (int dx = -r; dx <= r; dx++)
         {
-            if (dx * dx + dy * dy <= r * r)
+            if (dx * dx + dy * dy <= r * r )
             {
                 simulation.SetCell(
                     (Vector2){
                         (float)((cx + dx) * CELL_SIZE),
                         (float)((cy + dy) * CELL_SIZE)},
-                    element);
+                    element, overwrite);
             }
         }
     }

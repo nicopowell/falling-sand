@@ -9,7 +9,7 @@ private:
 
 public:
     Simulation();
-    void SetCell(Vector2 position, Element element);
+    void SetCell(Vector2 position, Element element, bool overwrite = false);
     Element GetCell(int x, int y);
     void Update();
     void Clear();

@@ -46,7 +46,8 @@ int main()
 
         if (IsKeyPressed(KEY_C)) simulation.Clear();
 
-        simulation.Update();
+        simulation.UpdateSand();
+        simulation.UpdateWater();
 
         // --- Dibujado (Draw) ---
         BeginDrawing();

@@ -2,5 +2,6 @@
 
 enum Element {
     EMPTY,
-    SAND
+    SAND,
+    WATER
 };

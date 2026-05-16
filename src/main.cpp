@@ -9,7 +9,7 @@ int main()
 {
     // 1. Inicialización
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Raylib - Guía Rápida");
-    SetTargetFPS(60); // Sincroniza el juego a 60 frames por segundo
+    SetTargetFPS(5); // Sincroniza el juego a 60 frames por segundo
 
     Simulation simulation;
     Vector2 cursorPosition;

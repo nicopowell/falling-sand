@@ -42,44 +42,41 @@ void Simulation::UpdateSand()
         {
             if (grid[y][x] == SAND)
             {
-                // Cae abajo
-                if (y + 1 < GRID_HEIGHT && grid[y + 1][x] == EMPTY)
+                // Abajo
+                if (y + 1 < GRID_HEIGHT && (grid[y + 1][x] == EMPTY || grid[y + 1][x] == WATER))
                 {
-                    grid[y][x] = EMPTY;
-                    grid[y + 1][x] = SAND;
+                    Element aux = grid[y][x];
+                    grid[y][x] = grid[y + 1][x];
+                    grid[y + 1][x] = aux;
                     continue;
                 }
 
-                // Elige direccion aleatoria
-                bool leftFirst = rand() % 2 == 0;
+                bool canLeftDown  = (x > 0 && y + 1 < GRID_HEIGHT && grid[y + 1][x - 1] == EMPTY);
+                bool canRightDown = (x + 1 < GRID_WIDTH && y + 1 < GRID_HEIGHT && grid[y + 1][x + 1] == EMPTY);
 
-                if (leftFirst)
+                // Ambos lados posibles → ahí sí azar
+                if (canLeftDown && canRightDown)
                 {
-                    // Izquierda -> Derecha
-                    if (x > 0 && y + 1 < GRID_HEIGHT && grid[y + 1][x - 1] == EMPTY)
+                    if (rand() % 2 == 0)
                     {
                         grid[y][x] = EMPTY;
                         grid[y + 1][x - 1] = SAND;
                     }
-                    else if (x + 1 < GRID_WIDTH && y + 1 < GRID_HEIGHT && grid[y + 1][x + 1] == EMPTY)
+                    else
                     {
                         grid[y][x] = EMPTY;
                         grid[y + 1][x + 1] = SAND;
                     }
                 }
-                else
+                else if (canLeftDown)
                 {
-                    // Derecha -> Izquierda
-                    if (x + 1 < GRID_WIDTH && y + 1 < GRID_HEIGHT && grid[y + 1][x + 1] == EMPTY)
-                    {
-                        grid[y][x] = EMPTY;
-                        grid[y + 1][x + 1] = SAND;
-                    }
-                    else if (x > 0 && y + 1 < GRID_HEIGHT && grid[y + 1][x - 1] == EMPTY)
-                    {
-                        grid[y][x] = EMPTY;
-                        grid[y + 1][x - 1] = SAND;
-                    }
+                    grid[y][x] = EMPTY;
+                    grid[y + 1][x - 1] = SAND;
+                }
+                else if (canRightDown)
+                {
+                    grid[y][x] = EMPTY;
+                    grid[y + 1][x + 1] = SAND;
                 }
             }
         }
@@ -93,8 +90,8 @@ void Simulation::UpdateWater()
     for (int y = GRID_HEIGHT - 1; y >= 0; y--)
     {
         for (int x = (leftToRight ? 0 : GRID_WIDTH - 1);
-             (leftToRight ? x < GRID_WIDTH : x >= 0);
-             (leftToRight ? x++ : x--))
+            (leftToRight ? x < GRID_WIDTH : x >= 0);
+            (leftToRight ? x++ : x--))
         {
             if (grid[y][x] != WATER) continue;
 
@@ -108,7 +105,7 @@ void Simulation::UpdateWater()
 
             // 2. FLOW LATERAL (buscar espacio)
             int dir = (rand() % 2 == 0) ? -1 : 1;
-            const int MAX_FLOW = 4;
+            const int MAX_FLOW = 8;
 
             bool moved = false;
 

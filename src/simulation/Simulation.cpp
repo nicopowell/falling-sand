@@ -1,6 +1,7 @@
 #include "Simulation.h"
 #include <cstdlib>
 #include <ctime>
+#include <utility>
 
 Simulation::Simulation()
 {
@@ -45,9 +46,7 @@ void Simulation::UpdateSand()
                 // Abajo
                 if (y + 1 < GRID_HEIGHT && (grid[y + 1][x] == EMPTY || grid[y + 1][x] == WATER))
                 {
-                    Element aux = grid[y][x];
-                    grid[y][x] = grid[y + 1][x];
-                    grid[y + 1][x] = aux;
+                    std::swap(grid[y][x], grid[y + 1][x]);
                     continue;
                 }
 
@@ -59,24 +58,20 @@ void Simulation::UpdateSand()
                 {
                     if (rand() % 2 == 0)
                     {
-                        grid[y][x] = EMPTY;
-                        grid[y + 1][x - 1] = SAND;
+                        std::swap(grid[y][x], grid[y + 1][x - 1]);
                     }
                     else
                     {
-                        grid[y][x] = EMPTY;
-                        grid[y + 1][x + 1] = SAND;
+                        std::swap(grid[y][x], grid[y + 1][x + 1]);
                     }
                 }
                 else if (canLeftDown)
                 {
-                    grid[y][x] = EMPTY;
-                    grid[y + 1][x - 1] = SAND;
+                    std::swap(grid[y][x], grid[y + 1][x - 1]);
                 }
                 else if (canRightDown)
                 {
-                    grid[y][x] = EMPTY;
-                    grid[y + 1][x + 1] = SAND;
+                    std::swap(grid[y][x], grid[y + 1][x + 1]);
                 }
             }
         }
@@ -98,8 +93,7 @@ void Simulation::UpdateWater()
             // 1. CAER
             if (y + 1 < GRID_HEIGHT && grid[y + 1][x] == EMPTY)
             {
-                grid[y][x] = EMPTY;
-                grid[y + 1][x] = WATER;
+                std::swap(grid[y][x], grid[y + 1][x]);
                 continue;
             }
 
@@ -121,8 +115,7 @@ void Simulation::UpdateWater()
                 // Si puede caer desde ahí → moverse
                 if (y + 1 < GRID_HEIGHT && grid[y + 1][nx] == EMPTY)
                 {
-                    grid[y][x] = EMPTY;
-                    grid[y][nx] = WATER;
+                    std::swap(grid[y][x], grid[y][nx]);
                     moved = true;
                     break;
                 }
@@ -136,13 +129,11 @@ void Simulation::UpdateWater()
 
             if (canLeft && !canRight)
             {
-                grid[y][x] = EMPTY;
-                grid[y][x - 1] = WATER;
+                std::swap(grid[y][x], grid[y][x - 1]);
             }
             else if (canRight && !canLeft)
             {
-                grid[y][x] = EMPTY;
-                grid[y][x + 1] = WATER;
+                std::swap(grid[y][x], grid[y][x + 1]);
             }
             else if (canLeft && canRight)
             {
@@ -151,13 +142,11 @@ void Simulation::UpdateWater()
                 {
                     if (rand() % 2 == 0)
                     {
-                        grid[y][x] = EMPTY;
-                        grid[y][x - 1] = WATER;
+                        std::swap(grid[y][x], grid[y][x - 1]);
                     }
                     else
                     {
-                        grid[y][x] = EMPTY;
-                        grid[y][x + 1] = WATER;
+                        std::swap(grid[y][x], grid[y][x + 1]);
                     }
                 }
             }

@@ -7,11 +7,13 @@ class Simulation {
 private:
     Element grid[GRID_HEIGHT][GRID_WIDTH];
 
+    void UpdateSandAt(int x, int y);
+    void UpdateWaterAt(int x, int y);
+
 public:
     Simulation();
     void SetCell(Vector2 position, Element element, bool overwrite = false);
     Element GetCell(int x, int y);
-    void UpdateSand();
-    void UpdateWater();
+    void Update();
     void Clear();
 };

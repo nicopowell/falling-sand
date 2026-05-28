@@ -1,7 +1,7 @@
 #pragma once
 
 // Pantalla
-const int SCREEN_WIDTH = 500;
+const int SCREEN_WIDTH = 1000;
 const int SCREEN_HEIGHT = 500;
 
 // Celda y grilla
